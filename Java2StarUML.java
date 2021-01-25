@@ -5,15 +5,14 @@ Este programa es software libre.
 Redistribución y modificación permitida.
 */
 
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 
 public class Java2StarUML {
     
-    public static void main(String[] args) {
-        
+    
+    public static void conversion(){
         char signo = ' ';
         String a, c, d = "", tipo = "", nombre = "";
         String[] params, paramTypes, paramNames;
@@ -26,11 +25,11 @@ public class Java2StarUML {
         JOptionPane.showMessageDialog(null,
                 "Este programa convierte un atributo \n" +
                 "o método de Java a la sintaxis de StarUML \npara que " +
-                "sea fácilmente copiado y pegado", "Bienvenido", 1);
+                "sea fácilmente copiado y pegado.", "Bienvenido", 1);
         
         a = JOptionPane.showInputDialog(null,
-                "Ingresa el atributo o declaración de método \n " +
-                "que deseas convertir a StarUML:",
+                "Ingrese el atributo o declaración de método \n " +
+                "que desee convertir a StarUML:",
                 "Ingreso de datos", 3);
        
         
@@ -132,20 +131,17 @@ public class Java2StarUML {
             //Añadimos el tipo de dato de retorno
             d += ": " + tipo;
             
-            d += "\n\nHaz doble click sobre la línea del resultado "
-                   + "para seleccionar todo\nen caso sea más larga que "
-                   + "la ventana y luego presiona Ctrl C.";
             
             //Advertencias de palabras clave suprimidas
             if(isAbstract){
                 d += "\n\nNOTA: Este método es abstracto.";
-                d += "\nNo olvides marcar la casilla.";
+                d += "\nNo olvide marcar la casilla.";
             }
             if(isStatic){
                 d += "\n\nNOTA: Este método es estático (static).";
-                d += "\nNo olvides marcar la casilla para que salga subrayado.";
+                d += "\nNo olvide marcar la casilla para que salga subrayado.";
             }
-            if (isFinal) d += "OJO: Este método es final.";
+            if (isFinal) d += "INFO: Este método es final.";
               
         } else {
             //Si es atributo
@@ -169,9 +165,48 @@ public class Java2StarUML {
 
         JTextArea ta = new JTextArea(10,15);
         
+        d += "\n\nHaga doble click sobre la línea del resultado "
+          + "para seleccionar todo\nen caso sea más larga que "
+          + "la ventana y luego presione Ctrl C.";
+        
         ta.setText(d);
         
-        JOptionPane.showMessageDialog(null, ta, "Resultado", 1);
+        JOptionPane.showMessageDialog(null, ta, "Resultado", 1);    
+    }
+    
+    
+    
+    public static boolean confirmar(String pregunta){
+        boolean confirmado = false;
+        int resultado = JOptionPane.showConfirmDialog(null, pregunta,
+                        "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (resultado == JOptionPane.YES_OPTION){
+            confirmado = true;
+        } else if (resultado == JOptionPane.NO_OPTION){
+            confirmado = false;
+        }
+        return confirmado;
+    }
+    
+    
+    
+    public static void main(String[] args) {
+        
+        boolean cont;
+        
+        do{
+           
+            try{
+                conversion();
+            } catch (Exception e) {
+               JOptionPane.showMessageDialog(null,"No se ingresó un dato válido",
+               "Datos inválidos o vacíos", 2);
+            }
+           
+            cont = confirmar("¿Desea realizar otra conversión?");
+        
+        } while (cont);
+    
     }
 }
 
